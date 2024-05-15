@@ -38,7 +38,7 @@ app.set('view engine', 'ejs');
 app.use('/api/auth', require('./routes/auth'));//auth routes
 app.use('/api/users', require('./routes/users'));//user routes
 app.use('/password', require('./routes/password'));//password routes
-app.use('/api/producer', require('./routes/producers'));//estate routes
+//app.use('/api/producer', require('./routes/producers'));//estate routes
 app.use('/api/feedback', require('./routes/feedback'));//feedback routes
 app.use('/api/sendContact',require('./routes/contactUs'));//Coutact Us routes
 

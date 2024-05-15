@@ -1,7 +1,7 @@
 const {User , validateUpdatUser} = require('../modules/User');
 const asyncHandler = require('express-async-handler');
 const bycrypt = require('bcryptjs');
-const {Estate} = require('../modules/Estate');
+//const {Estate} = require('../modules/Estate');
 
 
 /**

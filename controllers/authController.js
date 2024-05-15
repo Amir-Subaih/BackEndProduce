@@ -57,7 +57,7 @@ module.exports.loginUser = asyncHandler(async (req, res) => {
 
     const token = user.generateToken();
 
-    const {password , ...other} = user._doc;
+    const {password, confirm_password , ...other} = user._doc;
     res.status(200).json({other,token,message : "success"});
 });
 

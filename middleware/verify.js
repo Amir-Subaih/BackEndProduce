@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const {Estate} = require('../modules/Estate');
+//const {Estate} = require('../modules/Estate');
 
 function verifyToken(req, res, next) {
     const token = req.headers.token;
@@ -50,31 +50,31 @@ function verifyTokenAndEstate(req, res, next) {
     });
 }
 
-// verify token and admin and owner of the estate
-async function verifyTokenAndAdminAndOwner(req, res, next) {
-    // Retrieve estateId from request parameters
-    const estateId = req.params.id;
+// // verify token and admin and owner of the estate
+// async function verifyTokenAndAdminAndOwner(req, res, next) {
+//     // Retrieve estateId from request parameters
+//     const estateId = req.params.id;
 
-    try{
-        // Find the estate by its ID
-        const estate = await Estate.findById(estateId);
-        verifyToken(req, res, () => {
-            if(req.user.isAdmin || req.user.id === estate.ownerId.toString()){
-                next();
-            }else{
-                res.status(403).json({message: 'You are not allowed '});
-            }
-        });
-    }catch(error){
-        res.status(404).json({message: 'Estate not found', error: error});
-    }
+//     try{
+//         // Find the estate by its ID
+//         const estate = await Estate.findById(estateId);
+//         verifyToken(req, res, () => {
+//             if(req.user.isAdmin || req.user.id === estate.ownerId.toString()){
+//                 next();
+//             }else{
+//                 res.status(403).json({message: 'You are not allowed '});
+//             }
+//         });
+//     }catch(error){
+//         res.status(404).json({message: 'Estate not found', error: error});
+//     }
     
-}
+// }
 
 module.exports = {
     verifyToken,
     verifyTokenAndAuthorization, 
     verifyTokenAndAdmin,
     verifyTokenAndEstate,
-    verifyTokenAndAdminAndOwner
+    //verifyTokenAndAdminAndOwner
 };
