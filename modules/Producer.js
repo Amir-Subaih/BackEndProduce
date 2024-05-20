@@ -67,7 +67,7 @@ function validateUpdateProducer(obj){
         description : Joi.string().min(3).trim(),
         price : Joi.number().min(0),
         imageUrl : Joi.string(),
-        size : Joi.string().required().trim()
+        size : Joi.string().trim()
     });
     return schema.validate(obj);
 }

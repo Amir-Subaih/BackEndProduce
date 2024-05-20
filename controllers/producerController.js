@@ -86,6 +86,60 @@ module.exports.GetProducerById = asyncHandler (async (req, res) => {
 });
 
 /**
+ * @desc    Update producer by id
+ * @route   PUT /api/producer/:id
+ * @method  PUT
+ * @access  Privet (only admin can access this)
+ */
+
+module.exports.UpdateProducer = asyncHandler (async (req, res) => {
+    // Validate request body
+    const {error} = validateUpdateProducer(req.body);
+    if (error) return res.status(400).json(error.details[0].message);
+
+    const uploadedImages = [];
+        // Iterate through uploaded files
+        if (req.files && req.files.length > 0) 
+            {for (const file of req.files) {
+                    // Convert buffer to data URL
+                    const dataUrl = `data:${file.mimetype};base64,${file.buffer.toString('base64')}`;
+                    // Upload data URL to Cloudinary
+                    const re = await cloudinary.uploader.upload(dataUrl, { folder: 'Produces' });
+                    uploadedImages.push(re.secure_url);
+                }
+            }
+
+    const producer = await Producer.findByIdAndUpdate(req.params.id,{
+        $set : {
+            name : req.body.name,
+            description : req.body.description,
+            price : req.body.price,
+            size : req.body.size,
+            imageUrl : uploadedImages
+        }
+    },{new : true});
+    res.status(200).json({producer , "message" : "success"});
+});
+
+/**
+ * @desc    Delete producer by id
+ * @route   DELETE /api/producer/:id
+ * @method  DELETE
+ * @access  Privet (only admin can access this route)
+ 
+ */
+
+module.exports.DeleteProducer = asyncHandler (async (req, res) => {
+    const producer = await Producer.findByIdAndDelete(req.params.id);
+    if (producer) {
+        res.status(200).json({message : "success"});
+    } else {
+        res.status(404).json({message : 'Producer not found'});
+    }
+});
+
+
+/**
  * @desc    Get All producer
  * @route   GET /api/producer
  * @method  GET
@@ -563,61 +617,4 @@ module.exports.GetEstateByOwnerId = asyncHandler (async (req, res) => {
     }
 });
 
-/**
- * @desc    Update estate by id
- * @route   PUT /api/estate/:id
- * @method  PUT
- * @access  Privet (only admin can access this route And the owner of the estate)
- */
-
-module.exports.UpdateEstate = asyncHandler (async (req, res) => {
-    // Validate request body
-    const {error} = validateUpdateEstate(req.body);
-    if (error) return res.status(400).json(error.details[0].message);
-
-    const uploadedImages = [];
-        // Iterate through uploaded files
-        if (req.files && req.files.length > 0) 
-            {for (const file of req.files) {
-                    // Convert buffer to data URL
-                    const dataUrl = `data:${file.mimetype};base64,${file.buffer.toString('base64')}`;
-                    // Upload data URL to Cloudinary
-                    const re = await cloudinary.uploader.upload(dataUrl, { folder: 'uploads' });
-                    uploadedImages.push(re.secure_url);
-                }
-            }
-
-    const estate = await Estate.findByIdAndUpdate(req.params.id,{
-        $set : {
-            ownerId : req.body.ownerId,
-            address : req.body.address,
-            typeEstateSR : req.body.typeEstateSR,
-            description : req.body.description,
-            price : req.body.price,
-            typeEstates : req.body.typeEstates,
-            area : req.body.area,
-            bedrooms : req.body.bedrooms,
-            bathrooms : req.body.bathrooms,
-            //imageUrl : uploadedImages
-        }
-    },{new : true});
-    res.status(200).json({estate , "message" : "success"});
-});
-
-/**
- * @desc    Delete estate by id
- * @route   DELETE /api/estate/:id
- * @method  DELETE
- * @access  Privet (only admin can access this route And the owner of the estate)
- 
- */
-
-module.exports.DeleteEstate = asyncHandler (async (req, res) => {
-    const estate = await Estate.findByIdAndDelete(req.params.id);
-    if (estate) {
-        res.status(200).json({message : "success"});
-    } else {
-        res.status(404).json({message : 'Estate not found'});
-    }
-});
 
