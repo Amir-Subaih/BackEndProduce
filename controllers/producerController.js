@@ -60,6 +60,24 @@ module.exports.createProducer = asyncHandler(async (req, res) => {
 
 module.exports.GetAllProducers = asyncHandler (async (req, res) => {
 
+    let producers;
+        producers = await Producer.find().sort({ createdAt: -1 });
+    if (producers) {
+        res.status(200).json({producers , "message" : "success"});
+    } else {
+        res.status(404).json({message : 'No Producers found'},error);
+    }
+});
+
+/**
+ * @desc    Get All producer
+ * @route   GET /api/producer
+ * @method  GET
+ * @access  Public "Off"
+ */
+
+module.exports.SearchProducers = asyncHandler (async (req, res) => {
+
     let estates;
     const {maxprice,minprice,cityName} = req.query;
     const {pageNumber} = req.query;
