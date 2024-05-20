@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { createProducer,GetAllProducers/*
-        ,GetEstateById,GetEstateByOwnerId,
+const { createProducer,GetAllProducers
+        ,GetProducerById/*,GetEstateByOwnerId,
         UpdateEstate,DeleteEstate,
         GetByTypeEstates */} = require('../controllers/producerController');
 const { /*verifyTokenAndEstate,*/verifyTokenAndAdmin
@@ -26,10 +26,15 @@ router
         .route('/create')
         .post( upload.array('images', 20) ,verifyTokenAndAdmin,createProducer);
 
-     // function for Retern All Estates for Admin
+ // function for Retern All Producer for Admin
 router 
         .route('/')
         .get(GetAllProducers);
+
+// function for Retern Producer for website By id
+router
+        .route('/:id')
+        .get(GetProducerById);
 
 /*
 
@@ -57,7 +62,7 @@ router
 
 router
         .route('/:id')
-        .get(verifyTokenAndAdmin,GetEstateById)
+        .get(verifyTokenAndAdmin,GetEstateById)//Done
         .put(upload.array('images', 20) ,verifyTokenAndAdminAndOwner,UpdateEstate)
         .delete(verifyTokenAndAdminAndOwner,DeleteEstate);
 

@@ -70,6 +70,22 @@ module.exports.GetAllProducers = asyncHandler (async (req, res) => {
 });
 
 /**
+ * @desc    Get producer by id
+ * @route   GET /api/producer/:id
+ * @method  GET
+ * @access  Public
+ */
+
+module.exports.GetProducerById = asyncHandler (async (req, res) => {
+    const producer = await Producer.findById(req.params.id);
+    if (producer) {
+        res.status(200).json({producer , "message" : "success"});
+    } else {
+        res.status(404).json({message : 'Producer not found'});
+    }
+});
+
+/**
  * @desc    Get All producer
  * @route   GET /api/producer
  * @method  GET
@@ -478,7 +494,7 @@ module.exports.SearchProducers = asyncHandler (async (req, res) => {
  * @desc    Get All estate
  * @route   GET /api/estate
  * @method  GET
- * @access  Private (only admin can access this route)
+ * @access  Private (only admin can access this route)"off"
  */
 
 module.exports.GetByTypeEstates = asyncHandler (async (req, res) => {
@@ -530,26 +546,6 @@ module.exports.GetByTypeEstates = asyncHandler (async (req, res) => {
     }
 });
 
-/**
- * @desc    Get estate by id
- * @route   GET /api/estate/:id
- * @method  GET
- * @access  Privet (only admin can access this route)
- */
-
-module.exports.GetEstateById = asyncHandler (async (req, res) => {
-    const estate = await Estate.findById(req.params.id).populate("ownerId",[
-        "_id",
-        "email",
-        "name",
-        "phone"
-    ]);
-    if (estate) {
-        res.status(200).json({estate , "message" : "success"});
-    } else {
-        res.status(404).json({message : 'Estate not found'});
-    }
-});
 
 /**
  * @desc    Get estate by ownerId
