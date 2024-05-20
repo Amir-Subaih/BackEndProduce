@@ -7,6 +7,12 @@ const ProducerSchema = new mongoose.Schema({
         required: true,
         ref: "Users"
     },
+    name: {
+        type: String, 
+        required: true,
+        trim: true,
+        minlength: 3
+    },
     description: {
         type: String, // corrected from Type to type
         required: true,
@@ -23,10 +29,11 @@ const ProducerSchema = new mongoose.Schema({
         type : [String],
         required : true
    },
-   typeProducer : {
+   size : {
        type : String,
        required : true,
-       enum : ["الجوالات", "اللابتوبات", "أجهزه للارتداء","السماعات", "الأثاث","الأحذیه الریاضیه","الساعات" , "قرطاسیه", "أزیاء نسائیه","أزیاء رجالیه","ملابس ریاضیه" , "النظافه"]
+       trim: true,
+       min: 1
    }
 }, { timestamps: true });
 
@@ -40,10 +47,11 @@ function validateCreateProducer(obj){
 
     const schema = Joi.object({
         ownerId : Joi.string().required().trim(),
+        name : Joi.string().min(3).required().trim(),
         description : Joi.string().min(3).required().trim(),
         price : Joi.number().min(0).required(),
         imageUrl : Joi.string(),
-        typeEstates : Joi.string().required().valid("الجوالات", "اللابتوبات", "أجهزه للارتداء","السماعات", "الأثاث","الأحذیه الریاضیه","الساعات" , "قرطاسیه", "أزیاء نسائیه","أزیاء رجالیه","ملابس ریاضیه" , "النظافه")
+        size : Joi.string().required().trim()
     });
 
     return schema.validate(obj);
@@ -55,10 +63,11 @@ function validateCreateProducer(obj){
 function validateUpdateProducer(obj){
     const schema = Joi.object({
         ownerId : Joi.string().trim(),
+        name : Joi.string().min(3).trim(),
         description : Joi.string().min(3).trim(),
         price : Joi.number().min(0),
         imageUrl : Joi.string(),
-        typeProducers : Joi.string().valid("الجوالات", "اللابتوبات", "أجهزه للارتداء","السماعات", "الأثاث","الأحذیه الریاضیه","الساعات" , "قرطاسیه", "أزیاء نسائیه","أزیاء رجالیه","ملابس ریاضیه" , "النظافه")
+        size : Joi.string().required().trim()
     });
     return schema.validate(obj);
 }

@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const { createProducer,GetAllEstates
+const { createProducer/*,GetAllEstates
         ,GetEstateById,GetEstateByOwnerId,
         UpdateEstate,DeleteEstate,
-        GetByTypeEstates } = require('../controllers/producerController');
+        GetByTypeEstates */} = require('../controllers/producerController');
 const { /*verifyTokenAndEstate,*/verifyTokenAndAdmin
         ,verifyTokenAndAuthorization 
         ,verifyTokenAndAdminAndOwner } = require('../middleware/verify');
@@ -24,7 +24,9 @@ cloudinary.config({
 //function to validate Create Estate
 router
         .route('/create')
-        .post( upload.array('images', 20) /*,verifyTokenAndEstate*/,createProducer);
+        .post( upload.array('images', 20) ,verifyTokenAndAdmin,createProducer);
+
+/*
 
 // function for Retern All Estates for Admin
 router 
@@ -58,7 +60,7 @@ router
 router
         .route('/owner/:id')
         .get(verifyTokenAndAuthorization,GetEstateByOwnerId);
-
+*/
 
 
 module.exports = router;

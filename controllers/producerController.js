@@ -1,5 +1,6 @@
 const asyncHandler = require('express-async-handler');
 const { Producer, validateCreateProducer , validateUpdateProducer } = require('../modules/Producer');
+const { User } = require('../modules/User');
 const cloudinary = require('cloudinary').v2
 
 /**
@@ -14,21 +15,28 @@ module.exports.createProducer = asyncHandler(async (req, res) => {
     const {error} = validateCreateProducer(req.body);
     if (error) return res.status(400).json(error.details[0].message);
 
+    const user = await User.find({_id:req.body.ownerId});
+
+    if (user == null){
+        return res.status(400).json({message : 'User not found'});
+    }
+
     const uploadedImages = [];
         // Iterate through uploaded files
         for (const file of req.files) {
             // Convert buffer to data URL
             const dataUrl = `data:${file.mimetype};base64,${file.buffer.toString('base64')}`;
             // Upload data URL to Cloudinary
-            const re = await cloudinary.uploader.upload(dataUrl, { folder: 'uploads' });
+            const re = await cloudinary.uploader.upload(dataUrl, { folder: 'Produces' });
             uploadedImages.push(re.secure_url);
         }
 
     const producer = new Producer({
         ownerId : req.body.ownerId,
+        name : req.body.name,
         description : req.body.description,
         price : req.body.price,
-        typeProducers : req.body.typeEstates,
+        size : req.body.size,
         imageUrl : uploadedImages
     });
 
@@ -36,7 +44,7 @@ module.exports.createProducer = asyncHandler(async (req, res) => {
     if (result) {
         res.status(201).json({result,message : 'success'});
     } else {
-        res.status(500).json({message : 'Estate not created'});
+        res.status(500).json({message : 'Producer not created'});
     }
 
 
@@ -44,13 +52,13 @@ module.exports.createProducer = asyncHandler(async (req, res) => {
 
 
 /**
- * @desc    Get All estate
- * @route   GET /api/estate
+ * @desc    Get All producer
+ * @route   GET /api/producer
  * @method  GET
- * @access  Private (only admin can access this route)
+ * @access  Public
  */
 
-module.exports.GetAllEstates = asyncHandler (async (req, res) => {
+module.exports.GetAllProducers = asyncHandler (async (req, res) => {
 
     let estates;
     const {maxprice,minprice,cityName} = req.query;
