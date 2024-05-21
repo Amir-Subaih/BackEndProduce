@@ -117,7 +117,7 @@ module.exports.UpdateProducer = asyncHandler (async (req, res) => {
             description : req.body.description,
             price : req.body.price,
             size : req.body.size,
-            imageUrl : uploadedImages,
+            //imageUrl : uploadedImages,
             brand : req.body.brand,
             category : req.body.category
         }
