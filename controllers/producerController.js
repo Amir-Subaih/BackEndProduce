@@ -37,7 +37,9 @@ module.exports.createProducer = asyncHandler(async (req, res) => {
         description : req.body.description,
         price : req.body.price,
         size : req.body.size,
-        imageUrl : uploadedImages
+        imageUrl : uploadedImages,
+        brand : req.body.brand,
+        category : req.body.category
     });
 
     const result = await producer.save();
@@ -115,7 +117,9 @@ module.exports.UpdateProducer = asyncHandler (async (req, res) => {
             description : req.body.description,
             price : req.body.price,
             size : req.body.size,
-            imageUrl : uploadedImages
+            imageUrl : uploadedImages,
+            brand : req.body.brand,
+            category : req.body.category
         }
     },{new : true});
     res.status(200).json({producer , "message" : "success"});

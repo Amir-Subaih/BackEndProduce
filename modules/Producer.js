@@ -34,7 +34,18 @@ const ProducerSchema = new mongoose.Schema({
        required : true,
        trim: true,
        min: 1
-   }
+   },
+   brand :{
+         type : String,
+         required : true,
+         trim: true,
+         min: 1
+   },
+   category : {
+         type : String,
+         required : true,
+         default : "الجوالات,اللابتوبات,السماعات,أجهزه للارتداء,الأثاث,الأحذیه الریاضیه,الساعات,قرطاسیه,أزیاء نسائیه,أزیاء رجالیه,ملابس ریاضیه,النظافه"
+   },
 }, { timestamps: true });
 
 
@@ -51,7 +62,9 @@ function validateCreateProducer(obj){
         description : Joi.string().min(3).required().trim(),
         price : Joi.number().min(0).required(),
         imageUrl : Joi.string(),
-        size : Joi.string().required().trim()
+        size : Joi.string().required().trim(),
+        brand : Joi.string().required().trim(),
+        category : Joi.string().required().default("الجوالات,اللابتوبات,السماعات,أجهزه للارتداء,الأثاث,الأحذیه الریاضیه,الساعات,قرطاسیه,أزیاء نسائیه,أزیاء رجالیه,ملابس ریاضیه,النظافه")
     });
 
     return schema.validate(obj);
@@ -67,7 +80,9 @@ function validateUpdateProducer(obj){
         description : Joi.string().min(3).trim(),
         price : Joi.number().min(0),
         imageUrl : Joi.string(),
-        size : Joi.string().trim()
+        size : Joi.string().trim(),
+        brand : Joi.string().trim(),
+        category : Joi.string().default("الجوالات,اللابتوبات,السماعات,أجهزه للارتداء,الأثاث,الأحذیه الریاضیه,الساعات,قرطاسیه,أزیاء نسائیه,أزیاء رجالیه,ملابس ریاضیه,النظافه")
     });
     return schema.validate(obj);
 }
