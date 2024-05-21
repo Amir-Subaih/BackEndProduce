@@ -44,7 +44,7 @@ const ProducerSchema = new mongoose.Schema({
    category : {
          type : String,
          required : true,
-         default : "الجوالات,اللابتوبات,السماعات,أجهزه للارتداء,الأثاث,الأحذیه الریاضیه,الساعات,قرطاسیه,أزیاء نسائیه,أزیاء رجالیه,ملابس ریاضیه,النظافه"
+         default : "الجوالات,اللابتوبات,السماعات,أجهزه-للارتداء,الأثاث,الأحذیه-الریاضیه,الساعات,قرطاسیه,أزیاء-نسائیه,أزیاء-رجالیه,ملابس-ریاضیه,النظافه"
    },
 }, { timestamps: true });
 
@@ -64,7 +64,7 @@ function validateCreateProducer(obj){
         imageUrl : Joi.string(),
         size : Joi.string().required().trim(),
         brand : Joi.string().required().trim(),
-        category : Joi.string().required().valid("الجوالات,اللابتوبات,السماعات,أجهزه للارتداء,الأثاث,الأحذیه الریاضیه,الساعات,قرطاسیه,أزیاء نسائیه,أزیاء رجالیه,ملابس ریاضیه,النظافه")
+        category : Joi.string().required().valid("الجوالات,اللابتوبات,السماعات,أجهزه-للارتداء,الأثاث,الأحذیه-الریاضیه,الساعات,قرطاسیه,أزیاء-نسائیه,أزیاء-رجالیه,ملابس-ریاضیه,النظافه")
     });
 
     return schema.validate(obj);
@@ -82,7 +82,7 @@ function validateUpdateProducer(obj){
         imageUrl : Joi.string(),
         size : Joi.string().trim(),
         brand : Joi.string().trim(),
-        category : Joi.string().valid("الجوالات,اللابتوبات,السماعات,أجهزه للارتداء,الأثاث,الأحذیه الریاضیه,الساعات,قرطاسیه,أزیاء نسائیه,أزیاء رجالیه,ملابس ریاضیه,النظافه")
+        category : Joi.string().valid("الجوالات,اللابتوبات,السماعات,أجهزه-للارتداء,الأثاث,الأحذیه-الریاضیه,الساعات,قرطاسیه,أزیاء-نسائیه,أزیاء-رجالیه,ملابس-ریاضیه,النظافه")
     });
     return schema.validate(obj);
 }
