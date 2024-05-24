@@ -54,7 +54,7 @@ module.exports.createProducer = asyncHandler(async (req, res) => {
 
 
 /**
- * @desc    Get All producer
+ * @desc    Get All producer || Get producer by pageNumber
  * @route   GET /api/producer
  * @method  GET
  * @access  Public
@@ -63,7 +63,14 @@ module.exports.createProducer = asyncHandler(async (req, res) => {
 module.exports.GetAllProducers = asyncHandler (async (req, res) => {
 
     let producers;
+    const {pageNumber} = req.query;
+
+    if(pageNumber){
+        const producerPerPage = 2;
+        producers = await Producer.find().sort({ createdAt: -1 }).skip((pageNumber - 1) * producerPerPage).limit(producerPerPage);
+    }else{
         producers = await Producer.find().sort({ createdAt: -1 });
+    }
     if (producers) {
         res.status(200).json({producers , "message" : "success"});
     } else {
@@ -141,6 +148,10 @@ module.exports.DeleteProducer = asyncHandler (async (req, res) => {
         res.status(404).json({message : 'Producer not found'});
     }
 });
+
+
+
+
 
 
 /**
