@@ -66,7 +66,7 @@ module.exports.GetAllProducers = asyncHandler (async (req, res) => {
     const {pageNumber} = req.query;
 
     if(pageNumber){
-        const producerPerPage = 2;
+        const producerPerPage = 4;
         producers = await Producer.find().sort({ createdAt: -1 }).skip((pageNumber - 1) * producerPerPage).limit(producerPerPage);
     }else{
         producers = await Producer.find().sort({ createdAt: -1 });
