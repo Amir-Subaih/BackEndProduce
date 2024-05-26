@@ -39,7 +39,7 @@ function verifyTokenAndAdmin(req, res, next) {
 }
 
 // Verify token & Authorization the user
-function verifyTokenAndEstate(req, res, next) {
+function verifyTokenAndCreateUser(req, res, next) {
     verifyToken(req, res, () => {
      if(req.user.id === req.body.ownerId
         || req.user.id === req.body.userId){
@@ -75,6 +75,6 @@ module.exports = {
     verifyToken,
     verifyTokenAndAuthorization, 
     verifyTokenAndAdmin,
-    verifyTokenAndEstate,
+    verifyTokenAndCreateUser,
     //verifyTokenAndAdminAndOwner
 };

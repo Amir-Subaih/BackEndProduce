@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { verifyTokenAndEstate,verifyTokenAndAdmin,verifyTokenAndAuthorization } = require('../middleware/verify')
+const { verifyTokenAndCreateUser,verifyTokenAndAdmin,verifyTokenAndAuthorization } = require('../middleware/verify')
 const { createFeedback,getAllFeedbacks
         ,getFeedbackByID,getFeedbackByUserID 
         ,DeleteFeedback,updateFeedback } = require('../controllers/feedbackController');
@@ -14,7 +14,7 @@ const { createFeedback,getAllFeedbacks
 
 router
         .route('/')
-        .post(verifyTokenAndEstate ,createFeedback)
+        .post(verifyTokenAndCreateUser ,createFeedback)
         .get(verifyTokenAndAdmin ,getAllFeedbacks);
 
 

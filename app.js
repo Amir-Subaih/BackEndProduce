@@ -41,6 +41,7 @@ app.use('/password', require('./routes/password'));//password routes
 app.use('/api/producer', require('./routes/producers'));//producer routes
 app.use('/api/feedback', require('./routes/feedback'));//feedback routes
 app.use('/api/sendContact',require('./routes/contactUs'));//Coutact Us routes
+app.use('/api/order', require('./routes/orders'));//order routes
 
 
 

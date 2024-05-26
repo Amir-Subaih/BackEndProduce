@@ -4,7 +4,7 @@ const { createProducer,GetAllProducers
         ,GetProducerById,UpdateProducer,
         DeleteProducer/*,GetEstateByOwnerId,
         GetByTypeEstates */} = require('../controllers/producerController');
-const { /*verifyTokenAndEstate,*/verifyTokenAndAdmin
+const { /*verifyTokenAndCreateUser,*/verifyTokenAndAdmin
         ,verifyTokenAndAuthorization 
         ,verifyTokenAndAdminAndOwner } = require('../middleware/verify');
 const cloudinary = require('cloudinary').v2
