@@ -20,8 +20,7 @@ module.exports.createOrder = asyncHandler(async (req, res) => {
     const order = new Order({
         userId: req.body.userId,
         orderArray: req.body.orderArray,
-        sumPrice: req.body.sumPrice,
-        status: req.body.status
+        sumPrice: req.body.sumPrice
     });
 
     const result = await order.save();
@@ -46,7 +45,7 @@ module.exports.getAllOrders = asyncHandler(async (req, res) => {
             .skip((pageNumber - 1) * orderPerPage)
             .limit(orderPerPage);
     } else {
-        orders = await Order.find().sort({ createdAt: -1 });
+        orders = await Order.find();
     }
 
     res.status(200).json({ orders, message: 'Success' });
@@ -79,7 +78,12 @@ module.exports.UpdateOrder = asyncHandler(async (req, res) => {
     if (error) return res.status(400).json({ message: error.details[0].message });
 
     const order = await Order.findByIdAndUpdate(req.params.id, {
-        $set: req.body
+        $set: {
+            userId: req.body.userId,
+            orderArray: req.body.orderArray,
+            sumPrice: req.body.sumPrice,
+            status: req.body.status
+        }
     }, { new: true });
 
     res.status(200).json({ order, message: 'Order updated successfully' });
@@ -93,8 +97,21 @@ module.exports.UpdateOrder = asyncHandler(async (req, res) => {
  */
 
 module.exports.DeleteOrder = asyncHandler(async (req, res) => {
-    const order = await Order.findByIdAndDelete(req.params.id);
-    if (!order) return res.status(404).json({ message: 'Order not found' });
+    const order = await Order.findById(req.params.id);
+    if (!order) {
+        return res.status(404).json({ message: 'Order not found' });
+    }
 
+    // Check if the order was created more than 10 minutes ago
+    const orderCreationTime = new Date(order.createdAt);
+    const currentTime = new Date();
+    const timeDifference = (currentTime - orderCreationTime) / (1000 * 60); // Time difference in minutes
+
+    if (timeDifference > 10) {
+        return res.status(403).json({ message: 'Order cannot be deleted after 10 minutes from creation' });
+    }
+
+    // Proceed with deletion if within allowable time frame
+    await Order.findByIdAndDelete(req.params.id);
     res.status(200).json({ message: 'Order deleted successfully' });
 });

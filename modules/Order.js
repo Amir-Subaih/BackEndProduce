@@ -58,7 +58,8 @@ function validateCreateOrder(obj) {
             color: Joi.string().trim().required()
         })).required(),
         sumPrice: Joi.number().min(0).required(),
-        status: Joi.string().valid("pending", "accepted", "rejected", "delivered").required()
+        status: Joi.string().valid("pending", "accepted", "rejected", "delivered").default("pending")
+
     });
 
     return schema.validate(obj);
