@@ -40,12 +40,24 @@ module.exports.getAllOrders = asyncHandler(async (req, res) => {
     let orders;
 
     if (pageNumber) {
-        orders = await Order.find()
+        orders = await Order.find().populate("userId",[
+            "_id",
+            "email",
+            "name",
+            "phone",
+            "location"
+        ])
             .sort({ createdAt: -1 })
             .skip((pageNumber - 1) * orderPerPage)
             .limit(orderPerPage);
     } else {
-        orders = await Order.find();
+        orders = await Order.find().populate("userId",[
+            "_id",
+            "email",
+            "name",
+            "phone",
+            "location"
+        ]);
     }
 
     res.status(200).json({ orders, message: 'Success' });
@@ -59,7 +71,13 @@ module.exports.getAllOrders = asyncHandler(async (req, res) => {
  */
 
 module.exports.getOrderById = asyncHandler(async (req, res) => {
-    const order = await Order.findById(req.params.id);
+    const order = await Order.findById(req.params.id).populate("userId",[
+        "_id",
+        "email",
+        "name",
+        "phone",
+        "location"
+    ]);
     if (!order) return res.status(404).json({ message: 'Order not found' });
 
     res.status(200).json({ order, message: 'Success' });
