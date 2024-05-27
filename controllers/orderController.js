@@ -73,7 +73,7 @@ module.exports.getOrderById = asyncHandler(async (req, res) => {
  
  */
 
-module.exports.UpdateOrder = asyncHandler(async (req, res) => {
+module.exports.updateOrder = asyncHandler(async (req, res) => {
     const { error } = validateUpdateOrder(req.body);
     if (error) return res.status(400).json({ message: error.details[0].message });
 
@@ -93,10 +93,11 @@ module.exports.UpdateOrder = asyncHandler(async (req, res) => {
  * @description Delete order by id
  * @route DELETE /api/order/:id
  * @method DELETE
- * @access Private only(Admin)
+ * @access Private user order creator
+
  */
 
-module.exports.DeleteOrder = asyncHandler(async (req, res) => {
+module.exports.deleteOrder = asyncHandler(async (req, res) => {
     const order = await Order.findById(req.params.id);
     if (!order) {
         return res.status(404).json({ message: 'Order not found' });
@@ -115,3 +116,21 @@ module.exports.DeleteOrder = asyncHandler(async (req, res) => {
     await Order.findByIdAndDelete(req.params.id);
     res.status(200).json({ message: 'Order deleted successfully' });
 });
+
+/**
+ * @description Delete order by id
+ * @route DELETE /api/order/admin/:id
+ * @method DELETE
+ * @access Private only(Admin)
+ */
+
+module.exports.deleteOrderByAdmin = asyncHandler(async (req, res) => {
+    const order = await Order.findById(req.params.id);
+    if (!order) {
+        return res.status(404).json({ message: 'Order not found' });
+    }
+
+    await Order.findByIdAndDelete(req.params.id);
+    res.status(200).json({ message: 'Order deleted successfully' });
+});
+

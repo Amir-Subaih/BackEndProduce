@@ -72,13 +72,16 @@ function validateUpdateOrder(obj) {
             producerId: Joi.string().trim().required(),
             quantity: Joi.number().min(1).required(),
             size: Joi.string().trim().required(),
-            color: Joi.string().trim().required()
+            color: Joi.string().trim().required(),
+            _id: Joi.string().optional() // Allow _id field
         })),
         sumPrice: Joi.number().min(0),
         status: Joi.string().valid("pending", "accepted", "rejected", "delivered")
     });
+
     return schema.validate(obj);
 }
+
 
 // Export Module
 module.exports = {
