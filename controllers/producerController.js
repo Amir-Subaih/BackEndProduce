@@ -150,7 +150,27 @@ module.exports.DeleteProducer = asyncHandler (async (req, res) => {
 });
 
 
+/**
+ * @desc    Get Producer Search
+ * @route   GET /api/producer/search
+ * @method  GET
+ * @access  Public
+ */
 
+module.exports.GetSearchProducers = asyncHandler (async (req, res) => {
+
+    let producers;
+    const {categorys} = req.query;
+
+    if(categorys){
+        producers = await Producer.find({category:{$in:[categorys]}}).sort({ createdAt: -1 });
+    }
+    if (producers) {
+        res.status(200).json({producers , "message" : "success"});
+    } else {
+        res.status(404).json({message : 'No Producers found'},error);
+    }
+});
 
 
 

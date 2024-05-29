@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const { createProducer,GetAllProducers
         ,GetProducerById,UpdateProducer,
-        DeleteProducer/*,GetEstateByOwnerId,
-        GetByTypeEstates */} = require('../controllers/producerController');
+        DeleteProducer,GetSearchProducers
+        /*,GetEstateByOwnerId,GetByTypeEstates */} = require('../controllers/producerController');
 const { /*verifyTokenAndCreateUser,*/verifyTokenAndAdmin
         ,verifyTokenAndAuthorization 
         ,verifyTokenAndAdminAndOwner } = require('../middleware/verify');
@@ -31,12 +31,20 @@ router
         .route('/')
         .get(GetAllProducers);
 
+// function for Search Producer for website
+router 
+        .route('/search')
+        .get(GetSearchProducers);
+
 // function for Retern Producer for website By id
 router
         .route('/:id')
         .get(GetProducerById)
         .put(upload.array('images', 20) ,verifyTokenAndAdmin,UpdateProducer)
         .delete(verifyTokenAndAdmin,DeleteProducer);
+
+
+
 
 /*
 
