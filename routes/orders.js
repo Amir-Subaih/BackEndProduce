@@ -14,7 +14,7 @@ router
     .route('/:id')
     .put(verifyTokenAndAuthorization, updateOrder)
     .delete(verifyTokenAndAuthorization, deleteOrder)
-    .get( getOrderById);//went edit
+    .get(getOrderById);//went edit
 
 router 
     .route('/admin/:id')
