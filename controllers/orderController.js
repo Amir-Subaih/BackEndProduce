@@ -24,7 +24,7 @@ module.exports.createOrder = asyncHandler(async (req, res) => {
     });
 
     const result = await order.save();
-    res.status(201).json({ result, message: 'Order created successfully' });
+    res.status(201).json({ result, message: 'success' });
 });
 
 /**
