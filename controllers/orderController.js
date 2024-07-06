@@ -164,3 +164,10 @@ module.exports.deleteOrderByAdmin = asyncHandler(async (req, res) => {
     res.status(200).json({ message: 'Order deleted successfully' });
 });
 
+/**
+ * @description Get all orders
+ * @route GET /api/order
+ * @method GET
+ * @access Private only(Admin)
+ */
+
