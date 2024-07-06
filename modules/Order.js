@@ -39,8 +39,8 @@ const OrderSchema = new mongoose.Schema({
     status: {
         type: String,
         required: true,
-        enum: ["pending", "accepted", "rejected", "delivered"],
-        default: "pending"
+        enum: ["معلقة" , "مقبولة" , "مرفوضة", "سلمت"],
+        default: "معلقة"
     }
 }, { timestamps: true });
 
@@ -58,7 +58,7 @@ function validateCreateOrder(obj) {
             color: Joi.string().trim().required()
         })).required(),
         sumPrice: Joi.number().min(0).required(),
-        status: Joi.string().valid("pending", "accepted", "rejected", "delivered").default("pending")
+        status: Joi.string().valid("معلقة" , "مقبولة" , "مرفوضة", "سلمت").default("معلقة")
 
     });
 
@@ -76,7 +76,7 @@ function validateUpdateOrder(obj) {
             _id: Joi.string().optional() // Allow _id field
         })),
         sumPrice: Joi.number().min(0),
-        status: Joi.string().valid("pending", "accepted", "rejected", "delivered")
+        status: Joi.string().valid("معلقة" , "مقبولة" , "مرفوضة", "سلمت")
     });
 
     return schema.validate(obj);
