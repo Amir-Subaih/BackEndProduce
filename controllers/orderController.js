@@ -166,8 +166,25 @@ module.exports.deleteOrderByAdmin = asyncHandler(async (req, res) => {
 
 /**
  * @description Get all orders
- * @route GET /api/order
+ * @route GET /api/order/user/:id
  * @method GET
- * @access Private only(Admin)
+ * @access Private only(Admin&User)
  */
+
+module.exports.getAllOrdersByUserId = asyncHandler(async (req, res) => {
+    const orders = await Order.find({ userId: req.params.id }).populate("userId",[
+        "_id",
+        "email",
+        "name",
+        "phone",
+        "location"
+    ]).populate({
+        path: 'orderArray.producerId', // Populate the producerId field in orderArray
+        model: 'Producer', // Reference to the Producers collection
+        select: '_id name category brand size imageUrl price description' // Select the fields you want to populate
+    });
+    if (!orders) return res.status(404).json({ message: 'Order not found' });
+
+    res.status(200).json({ orders, message: 'success' });
+});
 
