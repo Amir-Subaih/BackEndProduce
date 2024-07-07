@@ -182,7 +182,7 @@ module.exports.getAllOrdersByUserId = asyncHandler(async (req, res) => {
         path: 'orderArray.producerId', // Populate the producerId field in orderArray
         model: 'Producer', // Reference to the Producers collection
         select: '_id name category brand size imageUrl price description' // Select the fields you want to populate
-    });
+    }).sort({ createdAt: -1 });
     if (!orders) return res.status(404).json({ message: 'Order not found' });
 
     res.status(200).json({ orders, message: 'success' });
