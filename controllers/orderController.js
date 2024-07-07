@@ -144,7 +144,7 @@ module.exports.deleteOrder = asyncHandler(async (req, res) => {
 
     // Proceed with deletion if within allowable time frame
     await Order.findByIdAndDelete(req.params.id);
-    res.status(200).json({ message: 'Order deleted successfully' });
+    res.status(200).json({ message: 'success' });
 });
 
 /**
