@@ -21,7 +21,7 @@ router
     .get(verifyTokenAndAuthorization, getAllOrdersByUserId);
 router 
     .route('/admin/:id')
-    .get(verifyTokenAndAdmin, deleteOrderByAdmin);
+    .delete(verifyTokenAndAdmin, deleteOrderByAdmin);
 
 
 module.exports = router;
