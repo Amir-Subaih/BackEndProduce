@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const {Order} = require('../modules/Order');
 //const {Estate} = require('../modules/Estate');
 
 function verifyToken(req, res, next) {
@@ -50,23 +51,23 @@ function verifyTokenAndCreateUser(req, res, next) {
     });
 }
 
-// verify token and admin and owner of the estate
+// verify token and admin and owner of the order
 async function verifyTokenAndAdminAndOwner(req, res, next) {
-    // Retrieve estateId from request parameters
-    const estateId = req.params.id;
+    // Retrieve orderId from request parameters
+    const orderId = req.params.id;
 
     try{
         // Find the estate by its ID
-        const estate = await Estate.findById(estateId);
+        const order = await Order.findById(orderId);
         verifyToken(req, res, () => {
-            if(req.user.isAdmin || req.user.id === estate.ownerId.toString()){
+            if(req.user.isAdmin || req.user.id === order.userId.toString()){
                 next();
             }else{
                 res.status(403).json({message: 'You are not allowed '});
             }
         });
     }catch(error){
-        res.status(404).json({message: 'Estate not found', error: error});
+        res.status(404).json({message: 'Order not found', error: error});
     }
     
 }
