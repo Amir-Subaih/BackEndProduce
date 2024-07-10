@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { createOrder,getAllOrders,getOrderById,updateOrder,
         deleteOrder,deleteOrderByAdmin,getAllOrdersByUserId } = require('../controllers/orderController'); // Adjust path as necessary
-const { verifyTokenAndCreateUser,verifyTokenAndAdmin,verifyTokenAndAuthorization } = require('../middleware/verify'); // Adjust path as necessary
+const { verifyTokenAndCreateUser,verifyTokenAndAdmin,verifyTokenAndAuthorization,verifyTokenAndAdminAndOwner } = require('../middleware/verify'); // Adjust path as necessary
 
 router
     .route('/create')
@@ -13,7 +13,7 @@ router
 router
     .route('/:id')
     .put(verifyTokenAndAuthorization, updateOrder)
-    .delete(verifyTokenAndAuthorization, deleteOrder)
+    .delete(verifyTokenAndAdminAndOwner, deleteOrder)
     .get(getOrderById);//went edit
 
 router
